@@ -14,9 +14,13 @@ export default class SeniorForm extends Component{
       needToKnow: '',
       lease: '',
       hours: '',
+      learnTopics: [],
+      teachTopics: []
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.createAccount = this.createAccount.bind(this)
+    this.addLearn = this.addLearn.bind(this)
   }
 
   handleInputChange(e) {
@@ -29,8 +33,26 @@ export default class SeniorForm extends Component{
     })
   }
 
+  addLearn(e) {
+    e.preventDefault()
+    this.setState({
+      learnTopics: this.state.learnTopics.push(this.state.addLearn),
+      addLearn: ''
+    })
+  }
+
+  createAccount(e){
+    e.preventDefault()
+    this.setState({
+      user: Object.assign({}, this.state)
+    })
+  }
+
   render() {
-    let { name, zipcode, addLearn, addTeach, addRequirement, needToKnow, lease, hours } = this.state
+    let { name, zipcode, addLearn, addTeach, addRequirement, needToKnow, lease, hours, learnTopics } = this.state
+
+    let inputLearn = learnTopics.length >= 1 ? learnTopics.map((learn, index) => <p key={index}>{learn}</p>) : ''
+
     return (
       <form className='senior-form'>
        <h2>Create Your Account</h2>
@@ -48,7 +70,7 @@ export default class SeniorForm extends Component{
                name='zipcode'
                onChange={this.handleInputChange}/>
         <br/>
-        <input type='submit'/>
+        <button onClick={this.renderNext}>SUBMIT</button>
         <br/>
         <label> How long will you consider sharing your home?</label>
         <br/>
@@ -96,7 +118,7 @@ export default class SeniorForm extends Component{
                checked={hours === '25-30 hours'}
                onChange={this.handleInputChange}/> 25-30 hours
         <br/>
-        <input type='submit'/>
+        <button onClick={this.renderNext}>SUBMIT</button>
         <label>I would like to learn about:</label>
         <br/>
         <input type='checkbox'
@@ -115,13 +137,18 @@ export default class SeniorForm extends Component{
                name='learnSports'
                onChange={this.handleInputChange}/> Sports
         <br/>
+        <section>{inputLearn}</section>
         <input placeholder='pop culture'
                name='addLearn'
                value={addLearn}
                onChange={this.handleInputChange}/>
-        <input type='submit' className='add-like-submit'/>
+        <button name='learnTopics'
+                onClick={this.addLearn}
+                className='add-like-submit'>
+                +
+        </button>
         <br/>
-        <input type='submit'/>
+        <button onClick={this.renderNext}>SUBMIT</button>
         <br/>
         <label>I would like to teach about:</label>
         <br/>
@@ -145,10 +172,13 @@ export default class SeniorForm extends Component{
                name='addTeach'
                value={addTeach}
                onChange={this.handleInputChange}/>
-        <input type='submit'
-               className='add-teach-submit'/>
+        <button name ='teachTopics'
+                onClick={this.addItem}
+                className='add-teach-submit'>
+                +
+        </button>
         <br/>
-        <input type='submit'/>
+        <button onClick={this.renderNext}>SUBMIT</button>
         <br/>
         <label>Do you have specific requirements for tenants:</label>
         <br/>
@@ -168,10 +198,12 @@ export default class SeniorForm extends Component{
                name='addRequirement'
                value={addRequirement}
                onChange={this.handleInputChange}/>
-        <input type='submit'
-               className='add-requirements-submit'/>
+        <button onClick={this.addItem}
+                className='add-requirements-submit'>
+                +
+       </button>
         <br/>
-        <input type='submit'/>
+        <button onClick={this.renderNext}>SUBMIT</button>
         <br/>
         <label>Is there anything else you want tenants to know about you or your home?</label>
         <br/>
@@ -182,7 +214,7 @@ export default class SeniorForm extends Component{
                   placeholder='I have 2 dogs and a cat.   Dirty dishes and punk rock are pet peeves.  Other than that I’m easy- going and open-minded.  I have a small unfurnished guest room available.'>
         </textarea>
         <br/>
-        <input type='submit'/>
+        <input type='submit' onClick={this.createAccount}/>
       </form>
     )
   }
