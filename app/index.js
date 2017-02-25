@@ -13,7 +13,8 @@ const router = (
       // <Provider store={store}>
         <Router history={browserHistory}>
           <Route path='/' component={Home} />
-            <IndexRoute component={Home} />
+            {/* <IndexRoute component={Home} /> */}
+            {/* BM - Was getting a weird error message that was super explicit - like "it does not make sense for the index route to be in your route file." haha. I felt scolded! I removed it.  */}
           <Route path='/sign-up' component={SeniorForm} />
         </Router>
       // </Provider>
